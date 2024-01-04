@@ -4,6 +4,7 @@
 
 class game
 {
+GameBoard gameboard;
 private:
     bool tetro_register[4][2] = {
         {0, 0},
@@ -11,14 +12,11 @@ private:
         {0, 0},
         {0, 0}};
 
-private:
     int current_x = 4;
-    int current_y = 1;
+    int current_y = 0;
 
 public:
     int board[10][20];
-
-    GameBoard game_board;
 
     game()
     {
@@ -31,7 +29,6 @@ public:
         }
     }
 
-public:
     int load_tetro(int tetro, bool test)
     {
 
@@ -128,7 +125,7 @@ public:
                     std::cout << "*";
                 }
                 else
-                    (std::cout << " ");
+                    (std::cout << "0");
             }
             std::cout << "\n";
         }
@@ -147,7 +144,7 @@ public:
     }
     int hit_bottom()
     {
-        game_board.save_tetro();
+        gameboard.save_tetro(current_x,current_y,tetro_register[0][0],tetro_register[0][1],tetro_register[1][0],tetro_register[1][1],tetro_register[2][0],tetro_register[2][1],tetro_register[3][0],tetro_register[3][1]);
     }
     void move_down()
     {

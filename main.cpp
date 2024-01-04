@@ -4,7 +4,7 @@
 
 int main() {
   game game;
- 
+
   
   game.load_tetro(4, -1);
   game.load_current_tetro();
