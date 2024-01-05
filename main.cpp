@@ -40,7 +40,7 @@ int main() {
   game.load_tetro(game.rand_tetro(), -1);
 
 while(true){
-  
+
   game.load_current_tetro();
   game.print_board();
 
@@ -51,7 +51,7 @@ while(true){
     if(input_num == quickDrop_num){game.move_down();}
     if(input_num == new_num){game.load_tetro(game.rand_tetro(),-1);}
 
-    //system("clear");
+    system("clear");
   }
  
 }

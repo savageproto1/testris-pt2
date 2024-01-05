@@ -2,6 +2,8 @@
 #include <iostream>
 #include "tetrominoes.h"
 
+
+
 class game
 {
 GameBoard gameboard;
@@ -13,7 +15,7 @@ private:
         {0, 0}};
 
     int current_x = 4;
-    int current_y = 15;
+    int current_y = 0;
 
 public:
     int board[10][20];
@@ -28,11 +30,12 @@ public:
             }
         }
     }
+    
     int rand_tetro(){return rand()%(0-4 + 1) + 0;}
 
     int load_tetro(int tetro, bool test)
     {
-
+    if(tetro != -1){
         switch (tetro)
         {
         case l_num:
@@ -89,6 +92,7 @@ public:
             std::cout << "unknown tetrominoe - " << tetro << "\n";
             return 0;
         }
+    }
         if (test == 0)
         {
             for (int vert1 = 0; vert1 < 4; vert1++)
@@ -126,17 +130,19 @@ public:
             {
                 if (board[x][y] == 1)
                 {
-                    std::cout << "*";
+                    std::cout << "1";
                 }
                 else
-                    (std::cout << " ");
+                    (std::cout << "0");
             }
             std::cout << "|\n";
         }
 
         std::cout<<"------------\n";
-        
+        gameboard.print_gameBoard();
+
     }
+
     void clear_current()
     {
         for (int boardY = 0; boardY < 20; boardY++)
@@ -146,16 +152,12 @@ public:
                 board[boardX][boardY] = 0;
             }
         }
-       /* board[current_x][current_y - 1] = 0;
-        board[current_x + 1][current_y - 1] = 0;
-        board[current_x][current_y] = 0;
-        board[current_x + 1][current_y] = 0;
-        board[current_x][current_y + 1] = 0;
-        board[current_x + 1][current_y + 1] = 0;
-        board[current_x][current_y + 2] = 0;
-        board[current_x + 1][current_y + 2] = 0;*/
+      
     }
-    void hit_bottom()
+
+    int hit_detection(int x,int y){return gameboard.hit_detect(x,y,tetro_register[0][0],tetro_register[0][1],tetro_register[1][0],tetro_register[1][1],tetro_register[2][0],tetro_register[2][1],tetro_register[3][0],tetro_register[3][1]);}
+    
+    void hit()
     {
         gameboard.save_tetro(current_x,current_y,tetro_register[0][0],tetro_register[0][1],tetro_register[1][0],tetro_register[1][1],tetro_register[2][0],tetro_register[2][1],tetro_register[3][0],tetro_register[3][1]);
         clear_current();
@@ -164,37 +166,45 @@ public:
         load_tetro(rand_tetro(),-1);
         load_current_tetro();
     }
+
     void move_down()
     {
+        
+        if(hit_detection(current_x,current_y+1) == 0){
         if ((current_y + 4) + 1 > 20)
         {
-            hit_bottom();
+            hit();
         }
         else
             (current_y++);
         clear_current();
         load_current_tetro();
+        } else(hit());   
     }
+
     void move_left()
     {
-        clear_current();
-
-        if (current_x - 1 > -1)
-        {
-            current_x--;
-        }
-
-        load_current_tetro();
+        if(hit_detection(current_x-1,current_y) == 0){
+            if (current_x - 1 > -1)
+            {
+                current_x--;
+            }
+             clear_current();
+             load_current_tetro();
+        }else(hit());
     }
     void move_right()
     {
-        clear_current();
+       if(hit_detection(current_x+1,current_y) == 0){
 
-        if (current_x + 1 < 9)
-        {
-            current_x++;
-        }
-
-        load_current_tetro();
+            if (current_x + 1 < 9 )
+            {
+                current_x++;
+            }
+            clear_current();
+            load_current_tetro();
+       }else(hit());
     }
+
+    void print_composet(){;}
 };
