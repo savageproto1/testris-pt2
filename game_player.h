@@ -13,7 +13,7 @@ private:
         {0, 0}};
 
     int current_x = 4;
-    int current_y = 0;
+    int current_y = 15;
 
 public:
     int board[10][20];
@@ -28,6 +28,7 @@ public:
             }
         }
     }
+    int rand_tetro(){return rand()%(0-4 + 1) + 0;}
 
     int load_tetro(int tetro, bool test)
     {
@@ -116,8 +117,11 @@ public:
 
     void print_board()
     {
+        std::cout<<"------------\n";
+
         for (int y = 0; y < 20; y++)
         {
+            std::cout<<"|";
             for (int x = 0; x < 10; x++)
             {
                 if (board[x][y] == 1)
@@ -125,26 +129,40 @@ public:
                     std::cout << "*";
                 }
                 else
-                    (std::cout << "0");
+                    (std::cout << " ");
             }
-            std::cout << "\n";
+            std::cout << "|\n";
         }
+
+        std::cout<<"------------\n";
+        
     }
     void clear_current()
     {
-
-        board[current_x][current_y - 1] = 0;
+        for (int boardY = 0; boardY < 20; boardY++)
+        {
+            for (int boardX = 0; boardX < 10; boardX++)
+            {
+                board[boardX][boardY] = 0;
+            }
+        }
+       /* board[current_x][current_y - 1] = 0;
         board[current_x + 1][current_y - 1] = 0;
         board[current_x][current_y] = 0;
         board[current_x + 1][current_y] = 0;
         board[current_x][current_y + 1] = 0;
         board[current_x + 1][current_y + 1] = 0;
         board[current_x][current_y + 2] = 0;
-        board[current_x + 1][current_y + 2] = 0;
+        board[current_x + 1][current_y + 2] = 0;*/
     }
-    int hit_bottom()
+    void hit_bottom()
     {
         gameboard.save_tetro(current_x,current_y,tetro_register[0][0],tetro_register[0][1],tetro_register[1][0],tetro_register[1][1],tetro_register[2][0],tetro_register[2][1],tetro_register[3][0],tetro_register[3][1]);
+        clear_current();
+        current_x=4;
+        current_y=0;
+        load_tetro(rand_tetro(),-1);
+        load_current_tetro();
     }
     void move_down()
     {
@@ -172,7 +190,7 @@ public:
     {
         clear_current();
 
-        if (current_x + 1 < 10)
+        if (current_x + 1 < 9)
         {
             current_x++;
         }
